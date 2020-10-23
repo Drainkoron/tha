@@ -4,7 +4,7 @@ import React, {useContext} from 'react';
 
 import { pages, navigatePage, setNavigationVariable } from '../navigation/NavigationsRouteFunctions'
 import { ProfileCardC } from '../components/ProfileScreen/profileCard/container'
-import { CalendarCard } from '../components/ProfileScreen/calendarCard/component'
+import { TrainingsCardC } from '../components/ProfileScreen/TrainingsCard/container'
 import { ProfileEditWindowC } from '../components/popupWindows/container'
 import { THEME } from '../theme'
 import { NavigationContext } from '../context/navigationsContext'
@@ -17,7 +17,7 @@ export default ProfileMain = ({navigation}) => {
     return (
         <View style={styles.container}>
             <ProfileCardC navigation={navigation} />
-            <CalendarCard style={{flex: 1,}} Date={{year:'2020', month:'Октябрь'}} navigation={navigation} />
+            <TrainingsCardC style={{flex: 1}} Date={{year:'2020', month:'Октябрь'}} navigation={navigation} />
         </View>
     );
 }

@@ -1,56 +1,49 @@
 Arguments: 
-  D:\nodejs\node.exe C:\Users\capsl\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add Formik
+  D:\nodejs\node.exe D:\Program Files\Yarn\bin\yarn.js add expo
 
 PATH: 
-  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Python38\Scripts\;C:\Python38\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;D:\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Users\capsl\AppData\Local\Android\Sdk;C:\Users\capsl\AppData\Local\Android\Sdk\platform-tools;C:\Users\capsl\AppData\Local\Android\Sdk\emulator;C:\Users\capsl\AppData\Roaming\npm;C:\Program Files\Java\jdk-14.0.2\bin;C:\Program Files\Java\jre1.8.0_261\bin;C:\Program Files\MongoDB\Server\4.4\bin;C:\Users\capsl\AppData\Local\Programs\Python\Python38-32\Scripts\;C:\Users\capsl\AppData\Local\Programs\Python\Python38-32\;C:\Users\capsl\AppData\Local\Microsoft\WindowsApps;C:\Users\capsl\AppData\Roaming\npm;D:\Programs\Microsoft VS Code\bin;C:\Program Files\Java\jdk-14.0.2;C:\Program Files\MongoDB\Server\4.4\bin;
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\nodejs\;D:\Program Files\Git\cmd;D:\Program Files\Yarn\bin\;C:\Users\Admin\AppData\Local\Microsoft\WindowsApps;C:\Users\Admin\AppData\Roaming\npm;D:\Programs\Microsoft VS Code\bin;C:\Users\Admin\AppData\Local\Yarn\bin
 
 Yarn version: 
   1.22.5
 
 Node version: 
-  12.18.1
+  12.19.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/Formik: Not found
-      at Request.params.callback [as _callback] (C:\Users\capsl\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
-      at Request.self.callback (C:\Users\capsl\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
-      at Request.emit (events.js:315:20)
-      at Request.<anonymous> (C:\Users\capsl\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
-      at Request.emit (events.js:315:20)
-      at IncomingMessage.<anonymous> (C:\Users\capsl\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
-      at Object.onceWrapper (events.js:421:28)
-      at IncomingMessage.emit (events.js:327:22)
-      at endReadableNT (_stream_readable.js:1221:12)
-      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: EPERM: operation not permitted, unlink 'C:\Users\Admin\AppData\Local\Yarn\Cache\v6\npm-hermes-engine-0.4.3-1754932f989daddd149172600f01e69cb8f27298-integrity\node_modules\hermes-engine\.yarn-tarball.tgz'
 
 npm manifest: 
   {
-    "main": "node_modules/expo/AppEntry.js",
     "scripts": {
-      "start": "expo start",
-      "android": "expo start --android",
-      "ios": "expo start --ios",
+      "start": "react-native start",
+      "android": "react-native run-android",
+      "ios": "react-native run-ios",
       "web": "expo start --web",
       "eject": "expo eject"
     },
     "dependencies": {
-      "@react-native-community/masked-view": "0.1.10",
       "expo": "~38.0.8",
+      "expo-splash-screen": "^0.5.0",
       "expo-status-bar": "^1.0.2",
+      "expo-updates": "~0.2.10",
       "react": "~16.11.0",
       "react-dom": "~16.11.0",
-      "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+      "react-native": "~0.62.2",
       "react-native-gesture-handler": "~1.6.0",
-      "react-native-paper": "^4.1.0",
       "react-native-reanimated": "~1.9.0",
-      "react-native-safe-area-context": "~3.0.7",
       "react-native-screens": "~2.9.0",
+      "react-native-unimodules": "~0.10.1",
+      "react-native-web": "~0.11.7",
+      "expo-image-picker": "^9.1.1",
+      "@react-native-community/masked-view": "0.1.10",
+      "react-native-paper": "^4.1.0",
+      "react-native-safe-area-context": "~3.0.7",
       "react-native-svg": "^12.1.0",
       "react-native-svg-transformer": "^0.14.3",
-      "react-native-web": "~0.11.7",
       "react-navigation": "^4.4.0",
       "react-navigation-material-bottom-tabs": "^2.3.0",
       "react-navigation-stack": "^2.8.2",
@@ -58,9 +51,14 @@ npm manifest:
     },
     "devDependencies": {
       "@babel/core": "^7.8.6",
+      "babel-jest": "~25.2.6",
+      "jest": "~25.2.6",
+      "react-test-renderer": "~16.11.0",
       "babel-preset-expo": "~8.1.0"
     },
-    "private": true
+    "private": true,
+    "name": "training-hub-app",
+    "version": "1.0.0"
   }
 
 yarn manifest: 
@@ -2279,12 +2277,20 @@ Lockfile:
       js-yaml "^3.13.1"
       parse-json "^4.0.0"
   
-  create-react-class@^15.6.2, create-react-class@^15.6.3:
+  create-react-class@^15.6.2:
     version "15.6.3"
     resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
     integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
     dependencies:
       fbjs "^0.8.9"
+      loose-envify "^1.3.1"
+      object-assign "^4.1.1"
+  
+  create-react-class@^15.6.3:
+    version "15.7.0"
+    resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.7.0.tgz#7499d7ca2e69bb51d13faf59bd04f0c65a1d6c1e"
+    integrity sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==
+    dependencies:
       loose-envify "^1.3.1"
       object-assign "^4.1.1"
   
@@ -2759,6 +2765,14 @@ Lockfile:
       fbjs "1.0.0"
       fontfaceobserver "^2.1.0"
   
+  expo-image-picker@^9.1.1:
+    version "9.1.1"
+    resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-9.1.1.tgz#42abe9deb595fa9f9d8ac0d2ba8aad2cd6f69581"
+    integrity sha512-Etz2OQhRflfx+xFbSdma8QLZsnV/yq0M/yqYlsi3/RLiWAQYM/D/VmRfDDPiG10gm+KX3Xb5iKplNjPrWeTuQg==
+    dependencies:
+      expo-permissions "~9.3.0"
+      uuid "7.0.2"
+  
   expo-keep-awake@~8.2.1:
     version "8.2.1"
     resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-8.2.1.tgz#a7956ad0fa80eb6ac6a28bb7242408e87c493677"
@@ -2791,6 +2805,11 @@ Lockfile:
     version "9.0.1"
     resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-9.0.1.tgz#dc10b58654bbe39bbbed5827369942b01b08055e"
     integrity sha512-CosJgy8XQRN/OFG2JTQDcFxz3XTGi27coCMym/hVXWtQfk0z6PwdRG5IXHfLGuSckwIcgmirrwm2+Zc0X3MmNg==
+  
+  expo-permissions@~9.3.0:
+    version "9.3.0"
+    resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-9.3.0.tgz#b90c7e9e411d306c1c7ba2bae18d5c53c201affd"
+    integrity sha512-ylSJZVvEGJVFTKsFrUL2S6gCvFt+/o8TJ3xT4WaMjHe2/2Z7R8ng6NR47Kt54t7XBIV/SZ7DIY9uRiR7TPuNYA==
   
   expo-splash-screen@^0.5.0:
     version "0.5.0"
@@ -4871,9 +4890,9 @@ Lockfile:
     integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
   
   react-devtools-core@^4.0.6:
-    version "4.8.2"
-    resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-4.8.2.tgz#4465f2e8de7795564aa20f28b2f3a9737586db23"
-    integrity sha512-3Lv3nI8FPAwKqUco35oOlgf+4j8mgYNnIcDv2QTfxEqg2G69q17ZJ8ScU9aBnymS28YC1OW+kTxLmdIQeTN8yg==
+    version "4.9.0"
+    resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-4.9.0.tgz#39cc4589b4c6fbcb6a18e529ce745a1af3e63ae5"
+    integrity sha512-3NyHXW1ClqxEXdHunawAytDxiIxs620oP3wB8DHsbx1fkGgqjMkwlyHVf0zmES/b4ffqzJySowRwSYds/uAHzw==
     dependencies:
       shell-quote "^1.6.1"
       ws "^7"
@@ -5998,6 +6017,11 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
     integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+  
+  uuid@7.0.2:
+    version "7.0.2"
+    resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
+    integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==
   
   uuid@^3.3.2, uuid@^3.4.0:
     version "3.4.0"

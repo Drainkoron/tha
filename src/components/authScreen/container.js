@@ -67,7 +67,7 @@ export const AuthMainC = ({stateUD, dispatchUD}) => {
         postReq(endpoints.get_token, {username:state.values.email, password:state.values.password}).then(data => {
             dispatchUD({type:'setAccessKey', payload:data.access})
 		}, error => {
-			console.log('error')
+			console.log(error)
 		})
     }
 
@@ -162,7 +162,7 @@ export const RecoveryC = ({stateUD, dispatchUD}) => {
             dispatchUD({type:'setPage', payload:'pinCode2'})
             dispatchUD({type:'setRecoveryEmail', payload:state.values.email})
         }, error => {
-			console.log('error')
+			console.log(error)
 		})
     }
 
@@ -199,10 +199,10 @@ export const PinCodeC = ({stateUD, dispatchUD}) => {
             postReq(endpoints.get_token, {username: stateUD.registrationData.email, password:stateUD.registrationData.password}).then(data => {
                 dispatchUD({type:'setAccessKey', payload:data.access})
             }, error => {
-                console.log('error')
+                console.log(error)
             })
 		}, error => {
-			console.log('error')
+			console.log(error)
 		})
     }
 
@@ -238,7 +238,7 @@ export const PinCodeC2 = ({stateUD, dispatchUD}) => {
         postReq(endpoints.check_pin, {pin: state.values.pinCode, email:stateUD.recoveryData.email}).then(data => {
             dispatchUD({type:'setPage', payload:'newPassword'})
 		}, error => {
-			console.log('error')
+			console.log(error)
 		})
     }
 
@@ -275,7 +275,7 @@ export const NewPasswordC = ({stateUD, dispatchUD}) => {
         postReq(endpoints.change_password, {password: state.values.password, email:stateUD.recoveryData.email}).then(data => {
             dispatchUD({type:'setPage', payload:'auth'})
 		}, error => {
-			console.log('error')
+			console.log(error)
 		})
     }
 

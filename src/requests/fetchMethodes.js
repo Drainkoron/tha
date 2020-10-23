@@ -2,8 +2,8 @@ export const fetchGet = (url, token) => {
     return new Promise(function(resolve, reject) {
         fetch(url, {
             method: 'GET',
-            credentials: 'include',
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         }).then((data) => {

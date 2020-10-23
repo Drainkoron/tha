@@ -9,7 +9,7 @@ import { MenuBarContainer } from './src/components/menuBar/container'
 import { MenuContextProvider } from './src/reducers/MenuReducer'
 import { PopupContextProvider } from './src/reducers/PopupReducer'
 import { ProfileContextProvider } from './src/reducers/ProfileReducer'
-import { CalendarContextProvider } from './src/reducers/CalendarReducer'
+import { TrainingsContextProvider } from './src/reducers/TrainingsReducer'
 import { NavigationContextProvider } from './src/context/navigationsContext'
 import { UserDataContextProvider } from './src/reducers/UserDataReducer'
 import { AuthScreen } from './src/screens/AuthScreen'
@@ -39,13 +39,13 @@ export default function App() {
     <UserDataContextProvider>
       <PopupContextProvider>
         <MenuContextProvider>
-          <CalendarContextProvider>
+          <TrainingsContextProvider>
             <ProfileContextProvider>
               <NavigationContextProvider>
                 <AuthScreen />
               </NavigationContextProvider>
             </ProfileContextProvider>
-          </CalendarContextProvider>
+          </TrainingsContextProvider>
           <MenuBarContainer />
           <PopupWindowC />
         </MenuContextProvider>

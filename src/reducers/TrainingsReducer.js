@@ -1,6 +1,6 @@
 import React, { useReducer, createContext } from "react";
 
-export const CalendarContext = createContext();
+export const TrainingsContext = createContext();
 
 const initialState = {
   Days: [
@@ -96,12 +96,12 @@ const reducer = (state, action) => {
     }
 }
 
-export const CalendarContextProvider = props => {
+export const TrainingsContextProvider = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <CalendarContext.Provider value={[state, dispatch]}>
+    <TrainingsContext.Provider value={[state, dispatch]}>
       {props.children}
-    </CalendarContext.Provider>
+    </TrainingsContext.Provider>
   );
 };

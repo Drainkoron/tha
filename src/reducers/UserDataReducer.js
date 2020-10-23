@@ -17,6 +17,11 @@ const reducer = (state, action) => {
           newState.access = action.payload
           return newState
 
+        case 'setProfileImg':
+          var newState = {...state}
+          newState.profileData.profile_image = action.payload
+          return newState
+        
         case 'setProfileData':
           var newState = {...state}
           newState.profileData = action.payload

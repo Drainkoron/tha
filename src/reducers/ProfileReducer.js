@@ -16,8 +16,8 @@ const reducer = (state, action) => {
     switch(action.type){
         case 'toggler':
           var newState = {...state}
+          newState.trainerContainer.isHidden ? (newState.trainerContainer.arrowMode = 'up') : (newState.trainerContainer.arrowMode = 'down')
           newState.trainerContainer.isHidden = !newState.trainerContainer.isHidden
-          newState.trainerContainer.arrowMode == 'up' ? newState.trainerContainer.arrowMode = 'down' : newState.trainerContainer.arrowMode = 'up' 
           return newState
           
         default:

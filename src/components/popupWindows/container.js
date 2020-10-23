@@ -6,12 +6,13 @@ import { PopupContext } from '../../reducers/PopupReducer'
 import { getReq, postReq } from '../../requests/request'
 import { endpoints } from '../../requests/constants'
 import { UserDataContext } from '../../reducers/UserDataReducer'
-import { PopupWindowTemplate, ProfileEditWindow, TutorialWindow, SupportWindow } from './component'
+import { PopupWindowTemplate, ProfileEditWindow, TutorialWindow, SupportWindow, CreateTrainingsWindow } from './component'
 
 export const popupWindowsList = {
     tutorialWindow: "TUTORIAL_WINDOW",
     profileEditWindow: "PROFILE_EDIT_WINDOW",
     supportWindow: "SUPPORT_WINDOW",
+    createTrainingsWindow: "CREATE_TRAINING_WINDOW"
 }
 
 export const PopupWindowC = () => {
@@ -32,6 +33,9 @@ export const PopupWindowC = () => {
         case popupWindowsList.supportWindow:
             return <SupportWindowC {...props}/>        
 
+        case popupWindowsList.createTrainingsWindow:
+            return <CreateTrainingsWindowC {...props}/> 
+        
         default:
             return null
     }
@@ -57,7 +61,7 @@ export const ProfileEditWindowC = ({state, dispatch}) => {
 
     const submit = () => {
         postReq(endpoints.upload_profile_image, {email:stateUD.profileData.email, img:image}, stateUD.access).then(data => {
-            console.log(data)
+            dispatchUD({type:'setProfileImg', payload:''})
         }, error => {
             console.log(error)
         })
@@ -122,3 +126,24 @@ export const SupportWindowC = ({state, dispatch}) => {
         </PopupWindowTemplate>
     )
 }
+
+export const CreateTrainingsWindowC = ({state, dispatch}) => {
+    const [contentType, contentTypeToggler] = useState('athletes')
+
+    const props = {
+        state,
+        contentType,
+        functions: {
+            f0: () => dispatch({type:'toggler'}),
+            f1: () => contentTypeToggler('athletes'),
+            f2: () => contentTypeToggler('groups'),
+            f3: (itemIndex) => dispatch({type:'setActiveItem', alternative:contentType, payload: itemIndex}),
+        }
+    }
+    
+    return (
+        <PopupWindowTemplate {...props}>
+            <CreateTrainingsWindow {...props}/>
+        </PopupWindowTemplate>
+    )
+} 

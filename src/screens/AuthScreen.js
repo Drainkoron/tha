@@ -25,7 +25,6 @@ export const AuthScreen = () => {
     
     else {
         getReq(endpoints.get_personal_data, stateUD.access).then(data => {
-            console.log(access, data)
             dispatchUD({type:'setProfileData', payload:data})
         }, error => {
             console.log(error)

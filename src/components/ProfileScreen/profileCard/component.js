@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useContext, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Animated, Image } from 'react-native';
 import { Feather, Fontisto, AntDesign, Ionicons } from '@expo/vector-icons';
+import { Preloader } from '../../../components/preloader'
 
 import { pages, navigatePage } from '../../../navigation/NavigationsRouteFunctions'
 import { THEME } from '../../../theme'
@@ -11,13 +12,20 @@ import { MenuContext } from '../../../reducers/MenuReducer'
 
 const theme = THEME.Android
 
-const MoreContent = ({state, heigthAnim}) => {
+const MoreContent = ({state, heigthAnim, userData}) => {
     return ( 
-        <Animated.View style={{overflow: 'hidden', height: heigthAnim}}>
-            <View style={styles.moreContentContainer}>
-                <Text>Trainer</Text>
-            </View>
-        </Animated.View>
+        userData.is_coach ? 
+            <Animated.View style={{overflow: 'hidden', height: heigthAnim}}>
+                <View style={styles.moreContentContainer}>
+                    <Text>Trainer</Text>
+                </View>
+            </Animated.View> :
+
+            <Animated.View style={{overflow: 'hidden', height: heigthAnim}}>
+                <View style={styles.moreContentContainer}>
+                    <Text>Athletes</Text>
+                </View>
+            </Animated.View>
     )
 }
 
@@ -26,7 +34,13 @@ export const ProfileCard = ({state, userData, heigthAnim, functions}) => {
         <View style={styles.container}>
             <View style={styles.profileContainer}>
                 <View style={styles.imgContainer}>
-                    { userData.profile_image ? <Image source={{ uri: userData.profile_image }} style={{ width: 140, height: 140 }} /> : null }
+                    { 
+                        userData.profile_image == null ? 
+                            <Text>Empty</Text> : 
+                            userData.profile_image == '' ? 
+                                <Preloader /> :
+                                <Image source={{ uri: userData.profile_image }} style={{ width: 140, height: 140 }} />
+                    }
                 </View>
                 <View style={styles.arrowIconContainer}>
                     <Fontisto name="arrow-return-right" size={24} color={theme.MAIN_COLOR} />
@@ -46,14 +60,16 @@ export const ProfileCard = ({state, userData, heigthAnim, functions}) => {
                 <View style={styles.hr}/>
             </View>
             <View style={styles.trainerContainer}>
-                <Text style={styles.trainerContainerTitle}>
-                    Мой тренер
-                </Text>
+                {
+                    userData.is_coach ? 
+                        <Text style={styles.trainerContainerTitle}>Мой тренер</Text>:
+                        <Text style={styles.trainerContainerTitle}>Мои атлеты</Text>
+                }
                 <TouchableOpacity style={styles.moreContentArrowContainer} onPress={() => functions.f3()}> 
                     <Ionicons name={`ios-arrow-${state.trainerContainer.arrowMode}`} size={24} color={theme.GRAY} />
                 </TouchableOpacity>
             </View>
-            <MoreContent state={state.trainerContainer} heigthAnim={heigthAnim}></MoreContent>
+            {!state.trainerContainer.isHidden ? <MoreContent userData={userData} state={state.trainerContainer}></MoreContent> : null}
         </View>
     );
 }

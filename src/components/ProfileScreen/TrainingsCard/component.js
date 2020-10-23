@@ -1,15 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useContext } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Feather, Fontisto, AntDesign, Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity, TouchableOpacityBase } from 'react-native';
+import { Feather, Fontisto, AntDesign, Ionicons, Entypo } from '@expo/vector-icons';
 
 import { pages, navigatePage } from '../../../navigation/NavigationsRouteFunctions'
 import { THEME } from '../../../theme'
-import { CalendarContext } from '../../../reducers/CalendarReducer'
 
 const theme = THEME.Android
 
-const SetsContent = ({state, dispatch}) => {
+const SetsContent = ({state, functions}) => {
     const shownContentIndex = state.content[state.activeElementIndex].shownContentIndex
 
     if(state.content[state.activeElementIndex].isEmpty) 
@@ -25,7 +24,7 @@ const SetsContent = ({state, dispatch}) => {
                 state.content[state.activeElementIndex].setOfExercises.map((item, index) => {
                     return (
                         <View key={index} style={styles.setsItem}>
-                            <TouchableOpacity onPress={() => dispatch({type:'setsItemModeToggler', setsItemIndex:index, activeElementIndex: state.activeElementIndex})}>
+                            <TouchableOpacity onPress={() => functions.f0(index)}>
                                 <View style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}}>
                                     <View style={{alignItems:'center', flexDirection: 'row'}}>
                                         
@@ -50,7 +49,7 @@ const SetsContent = ({state, dispatch}) => {
     )
 }
 
-const DaysListContainer = ({state, dispatch}) => {
+const DaysListContainer = ({state, functions}) => {
     
     return (
         <View style={styles.daysListContainer}>
@@ -66,7 +65,7 @@ const DaysListContainer = ({state, dispatch}) => {
                                 {item.str}
                             </Text>
                         </View>
-                        <TouchableOpacity styles={styles.daysContainer} onPress={() => dispatch({type:'changeActiveElement', payload: index})}>
+                        <TouchableOpacity styles={styles.daysContainer} onPress={() => functions.f1(index)}>
                             <View style={{...styles.dayButtons, borderColor: borderColor, backgroundColor: bgColor}}>
                                 <Text style={{...styles.daysText, color: buttonTextColor}}>
                                     {item.num}
@@ -80,11 +79,9 @@ const DaysListContainer = ({state, dispatch}) => {
     )
 }
 
-export const CalendarCard = ({Date, navigation}) => {
-    const [state, dispatch] = useContext(CalendarContext);
-    
+const AthleteContent = ({Date, state, functions}) => {
     return (
-        <View style={styles.container}>
+        <>
             <View style={styles.monthContainer}>
                 <TouchableOpacity >
                     <Ionicons name="ios-arrow-back" size={24} color={theme.GRAY} />
@@ -100,14 +97,60 @@ export const CalendarCard = ({Date, navigation}) => {
             </View>   
             <DaysListContainer
                 state={state}
-                dispatch = {dispatch}
+                functions={functions}
             ></DaysListContainer>    
             <View style={styles.hr}/>
             <SetsContent
                 state={state}
-                dispatch = {dispatch}
+                functions={functions}
             ></SetsContent>
-            
+        </>
+    )
+}
+
+const TrainerContent = ({Date, state, functions}) => {
+    const styles = {
+        icon: {
+            color: theme.MAIN_COLOR,
+            fontSize: 45,
+            margin: 50,
+        },
+        title: {
+            color: theme.MAIN_COLOR,
+            fontSize: 25
+        },
+        container: {
+            flex: 1,
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center'
+        }
+    }
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Написать программу</Text>
+            <TouchableOpacity onPress={() => functions.f2()}>
+                <AntDesign name="pluscircle" size={24} style={styles.icon} />
+            </TouchableOpacity>
+        </View>
+    )
+}
+
+export const TrainingsCard = ({userData, Date, navigation, state, functions}) => {
+    const props = {
+        Date,
+        state,
+        functions
+    }
+    
+    return (
+        <View style={styles.container}>
+            {
+                userData.is_coatch ? 
+                    <AthleteContent {...props}/> :
+                    <TrainerContent {...props}/>
+            }
         </View>
     );
 }
@@ -244,5 +287,4 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: theme.GRAY,
     }
-
 });
