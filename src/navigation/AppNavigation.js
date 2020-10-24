@@ -1,7 +1,7 @@
 import React from 'react'
 import Svg, { SvgXml, Rect } from 'react-native-svg'
 import { createAppContainer } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
+import { createStackNavigator, TransitionPresets } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import { Platform, Image } from 'react-native'
@@ -12,26 +12,67 @@ import StatsMainScreen from '../screens/StatsMain'
 import TrainingMainScreen from '../screens/TrainingMain'
 import StarMainScreen from '../screens/StarMain'
 import MessagesMainScreen from '../screens/MessagesMain'
-import { AuthMainC, ChooseUserTypeC, SignUpC, RecoveryC, PinCodeC, NewPasswordC } from '../components/authScreen/container'
+import { AuthMainC, ChooseUserTypeC, SignUpC, RecoveryC, PinCodeC, PinCodeC2, NewPasswordC } from '../components/authScreen/container'
 import TrainingProgramScreen from '../screens/profileSubScreens/TrainingProgram'
 import ConversationScreen from '../screens/messagesSubScreens/Conversation'
 import { THEME } from '../theme'
 
 const theme = Platform.OS == 'android' ? THEME.Android : THEME.Ios
 
+const transitionConfig = () => {
+    return {
+      transitionSpec: {
+        duration: 750,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+        useNativeDriver: true,
+      },
+      screenInterpolator: sceneProps => {      
+        const { layout, position, scene } = sceneProps
+  
+        const thisSceneIndex = scene.index
+        const width = layout.initWidth
+  
+        const translateX = position.interpolate({
+          inputRange: [thisSceneIndex - 1, thisSceneIndex],
+          outputRange: [width, 0],
+        })
+  
+        return { transform: [ { translateX } ] }
+      },
+    }
+  }
+
 export const AuthNavigator = createStackNavigator(
     {
-        Auth: AuthMainC,
-        ChooseUserType: ChooseUserTypeC,
-        SignUp: SignUpC, 
-        Recovery: RecoveryC, 
-        PinCode: PinCodeC, 
-        NewPassword: NewPasswordC
+        Auth: {
+            screen: AuthMainC
+        },
+        ChooseUserType: {
+            screen: ChooseUserTypeC
+        },
+        SignUp: {
+            screen: SignUpC
+        }, 
+        Recovery: {
+            screen: RecoveryC
+        }, 
+        PinCode: {
+            screen: PinCodeC
+        }, 
+        PinCode2: {
+            screen: PinCodeC2
+        },
+        NewPassword: {
+            screen: NewPasswordC
+        }
     },
     {
         initialRouteName: 'Auth',
         defaultNavigationOptions: {
             headerShown: false,
+            animationEnabled: false,
+            gesturesEnabled: false
         }
     }
 )

@@ -20,7 +20,7 @@ export const AuthScreen = () => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
 
     if(stateUD.access == null){
-        return <Container />
+        return <AuthNavigation />
     }
     
     else {

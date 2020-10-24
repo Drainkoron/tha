@@ -13,6 +13,7 @@ export const pages = {
     ChooseUserType: 'ChooseUserType',
     SignUp: 'SignUp', 
     Recovery: 'Recovery', 
+    PinCode2: 'PinCode2',
     PinCode: 'PinCode', 
     NewPassword: 'NewPassword'
 }

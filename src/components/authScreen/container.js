@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, Image, TouchableOpacity, TextInput, For
 
 import { AuthTemplate, AuthPage, ChooseUserTypePage, SignUpPage, RecoveryPage, PinCodePage, NewPasswordPage } from './components'
 import { UserDataContext } from '../../reducers/UserDataReducer'
+import { pages } from '../../navigation/NavigationsRouteFunctions'
 import { getReq, postReq } from '../../requests/request'
 import { endpoints } from '../../requests/constants'
 import { THEME } from '../../theme'
@@ -11,45 +12,9 @@ const theme = THEME.Android
 
 const bgImage = require('../../../assets/icons/AuthBackgroundImage.png')
 
-
-export const Container = () => {
+export const AuthMainC = ({navigation}) => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
-
-    const props = {
-        stateUD,
-        dispatchUD
-    }
-
-    if(stateUD.access == null){
-        switch(stateUD.page){
-            case 'auth':
-                return <AuthMainC {...props}/>
-            
-            case 'signUp':
-                return <SignUpC {...props}/>
-            
-            case 'chooseType':
-                return <ChooseUserTypeC {...props}/>
-            
-            case 'recovery':
-                return <RecoveryC {...props}/>
-
-            case 'pinCode':
-                return <PinCodeC {...props}/>
-            
-            case 'pinCode2':
-                return <PinCodeC2 {...props}/>
-
-            case 'newPassword':
-                return <NewPasswordC {...props}/>
-            
-            default:
-                return null
-        }
-    }
-}
-
-export const AuthMainC = ({stateUD, dispatchUD}) => {
+    const [loader, loaderToggler] = useState(false)
     const [state, setState] = useState({
         values: {
             email: '',
@@ -64,17 +29,21 @@ export const AuthMainC = ({stateUD, dispatchUD}) => {
     }
     
     const submit = () => {
+        loaderToggler(true)
         postReq(endpoints.get_token, {username:state.values.email, password:state.values.password}).then(data => {
+            loaderToggler(false)
             dispatchUD({type:'setAccessKey', payload:data.access})
 		}, error => {
+            loaderToggler(false)
 			console.log(error)
 		})
     }
 
     const props = {
+        loader,
         functions: {
-            f0: () => {dispatchUD({type:'setPage', payload:'recovery'})},
-            f1: () => {dispatchUD({type:'setPage', payload:'chooseType'})}
+            f0: () => {navigation.navigate(pages.Recovery)},
+            f1: () => {navigation.navigate(pages.ChooseUserType)}
         },
         form: {
             handleChange: handleChange,
@@ -89,11 +58,15 @@ export const AuthMainC = ({stateUD, dispatchUD}) => {
         </AuthTemplate>
     )
 }
-export const ChooseUserTypeC = ({stateUD, dispatchUD}) => {
+
+export const ChooseUserTypeC = ({navigation}) => {
+    const [stateUD, dispatchUD] = useContext(UserDataContext)
+    const [loader, loaderToggler] = useState(false)
     const props = {
+        loader,
         functions: {
-            f0: () => {dispatchUD({type:'setPage', payload:'signUp'}), dispatchUD({type:'setUserType', payload:true})},
-            f1: () => {dispatchUD({type:'setPage', payload:'signUp'}), dispatchUD({type:'setUserType', payload:false})}
+            f0: () => {navigation.navigate(pages.SignUp), dispatchUD({type:'setUserType', payload:true})},
+            f1: () => {navigation.navigate(pages.SignUp), dispatchUD({type:'setUserType', payload:false})}
         }    
     }
     
@@ -104,7 +77,9 @@ export const ChooseUserTypeC = ({stateUD, dispatchUD}) => {
     )
 }
 
-export const SignUpC = ({stateUD, dispatchUD}) => {
+export const SignUpC = ({navigation}) => {
+    const [stateUD, dispatchUD] = useContext(UserDataContext)
+    const [loader, loaderToggler] = useState(false)
     const [state, setState] = useState({
         values: {
             first_name: '',
@@ -121,15 +96,19 @@ export const SignUpC = ({stateUD, dispatchUD}) => {
     }
     
     const submit = () => {
+        loaderToggler(true)
         postReq(endpoints.registration, {...state.values}).then(data => {
+            loaderToggler(false)
             dispatchUD({type:'setRegistrationData', payload:{...state.values}})
             dispatchUD({type:'setPage', payload:'pinCode'})
 		}, error => {
+            loaderToggler(false)
 			console.log(error)
 		})
     }
 
     const props = {
+        loader,
         form: {
             handleChange: handleChange,
             submit: submit,
@@ -144,7 +123,10 @@ export const SignUpC = ({stateUD, dispatchUD}) => {
         </AuthTemplate>
     )
 }
-export const RecoveryC = ({stateUD, dispatchUD}) => {
+
+export const RecoveryC = ({navigation}) => {
+    const [stateUD, dispatchUD] = useContext(UserDataContext)
+    const [loader, loaderToggler] = useState(false)
     const [state, setState] = useState({
         values: {
             email: '',
@@ -158,15 +140,20 @@ export const RecoveryC = ({stateUD, dispatchUD}) => {
     }
     
     const submit = () => {
+        loaderToggler(true)
         postReq(endpoints.password_recovery, {...state.values}).then(data => {
-            dispatchUD({type:'setPage', payload:'pinCode2'})
+            console.log(data)
+            loaderToggler(false)
+            navigation.navigate(pages.PinCode2)
             dispatchUD({type:'setRecoveryEmail', payload:state.values.email})
         }, error => {
+            loaderToggler(false)
 			console.log(error)
 		})
     }
 
     const props = {
+        loader,
         form: {
             handleChange: handleChange,
             submit: submit,
@@ -181,7 +168,9 @@ export const RecoveryC = ({stateUD, dispatchUD}) => {
     )
 }
 
-export const PinCodeC = ({stateUD, dispatchUD}) => {
+export const PinCodeC = ({navigation}) => {
+    const [stateUD, dispatchUD] = useContext(UserDataContext)
+    const [loader, loaderToggler] = useState(false)
     const [state, setState] = useState({
         values: {
             pinCode: '',   
@@ -195,10 +184,13 @@ export const PinCodeC = ({stateUD, dispatchUD}) => {
     }
 
     const submit = () => {
+        loaderToggler(true)
         postReq(endpoints.confirm_email, {pin: state.values.pinCode, email:stateUD.registrationData.email}).then(data => {
             postReq(endpoints.get_token, {username: stateUD.registrationData.email, password:stateUD.registrationData.password}).then(data => {
+                loaderToggler(false)
                 dispatchUD({type:'setAccessKey', payload:data.access})
             }, error => {
+                loaderToggler(false)
                 console.log(error)
             })
 		}, error => {
@@ -207,6 +199,7 @@ export const PinCodeC = ({stateUD, dispatchUD}) => {
     }
 
     const props = {
+        loader,
         form: {
             handleChange: handleChange,
             submit: submit,
@@ -221,7 +214,9 @@ export const PinCodeC = ({stateUD, dispatchUD}) => {
     )
 }
 
-export const PinCodeC2 = ({stateUD, dispatchUD}) => {
+export const PinCodeC2 = ({navigation}) => {
+    const [stateUD, dispatchUD] = useContext(UserDataContext)
+    const [loader, loaderToggler] = useState(false)
     const [state, setState] = useState({
         values: {
             pinCode: '',   
@@ -235,14 +230,18 @@ export const PinCodeC2 = ({stateUD, dispatchUD}) => {
     }
     
     const submit = () => {
+        loaderToggler(true)
         postReq(endpoints.check_pin, {pin: state.values.pinCode, email:stateUD.recoveryData.email}).then(data => {
-            dispatchUD({type:'setPage', payload:'newPassword'})
+            loaderToggler(false)
+            navigation.navigate(pages.NewPassword)
 		}, error => {
+            loaderToggler(false)
 			console.log(error)
 		})
     }
 
     const props = {
+        loader,
         form: {
             handleChange: handleChange,
             submit: submit,
@@ -257,7 +256,9 @@ export const PinCodeC2 = ({stateUD, dispatchUD}) => {
     )
 }
 
-export const NewPasswordC = ({stateUD, dispatchUD}) => {
+export const NewPasswordC = ({navigation}) => {
+    const [stateUD, dispatchUD] = useContext(UserDataContext)
+    const [loader, loaderToggler] = useState(false)
     const [state, setState] = useState({
         values: {
             password: '',
@@ -272,14 +273,18 @@ export const NewPasswordC = ({stateUD, dispatchUD}) => {
     }
     
     const submit = () => {
+        loaderToggler(true)
         postReq(endpoints.change_password, {password: state.values.password, email:stateUD.recoveryData.email}).then(data => {
-            dispatchUD({type:'setPage', payload:'auth'})
+            loaderToggler(false)
+            navigation.goBack()
 		}, error => {
+            loaderToggler(false)
 			console.log(error)
 		})
     }
 
     const props = {
+        loader,
         form: {
             handleChange: handleChange,
             submit: submit,

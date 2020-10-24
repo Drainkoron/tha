@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Entypo, FontAwesome, Zocial } from '@expo/vector-icons';
 
 import { THEME } from '../../theme'
+import { Preloader } from '../preloader'
 import { pages } from '../../navigation/NavigationsRouteFunctions'
 
 const bgImage = require('../../../assets/icons/AuthBackgroundImage.png')
@@ -170,8 +171,7 @@ const Input = ({form, name, placeholder, secureTextEntry, Icon}) => {
     )
 }
 
-const PinCodeInput = ({form, name}) => {
-
+const PinCodeInput = ({form, name, loader}) => {
     const styles = StyleSheet.create({
         inputSection: {
             marginTop: 10,
@@ -200,7 +200,8 @@ const PinCodeInput = ({form, name}) => {
         </View>
     )
 }
-export const AuthPage = ({form, functions}) => {
+
+export const AuthPage = ({form, functions, loader}) => {
     const styles = {
         wrapper: {
             width: '96%',
@@ -260,34 +261,40 @@ export const AuthPage = ({form, functions}) => {
 
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.title}>Хочешь стать частью настоящей тяжелой атлетики?</Text>
-            <View style={styles.authWith}>
-                <Text style={styles.authWithTitle}>Войти с помощью</Text>
-                <TouchableOpacity>
-                    <Entypo style={styles.facebookIcon} name="facebook" size={32} />
-                </TouchableOpacity>
-            </View>
-            <View style={styles.form}>
-                <Input form={form} name={'email'} placeholder={'E-Mail'} Icon={() => <Zocial name="email" size={24} color={theme.WHITE} />}/>
-                <Input form={form} name={'password'} placeholder={'Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
-                <View style={styles.forgotPasswordContainer}>
-                    <TouchableOpacity onPress={() => functions.f0()}>
-                        <Text style={styles.forgotPasswordText}>
-                            Забыли пароль?
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity onPress={() => form.submit()}>
-                    <Text style={styles.submit}>
-                        Войти
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => functions.f1()}>
-                    <Text style={{...styles.submit, backgroundColor: 'black', color: theme.WHITE}}>
-                        Регистрация
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            {
+                loader ? <Preloader /> : 
+                <>
+                    <Text style={styles.title}>Хочешь стать частью настоящей тяжелой атлетики?</Text>
+                    <View style={styles.authWith}>
+                        <Text style={styles.authWithTitle}>Войти с помощью</Text>
+                        <TouchableOpacity>
+                            <Entypo style={styles.facebookIcon} name="facebook" size={32} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.form}>
+                        <Input form={form} name={'email'} placeholder={'E-Mail'} Icon={() => <Zocial name="email" size={24} color={theme.WHITE} />}/>
+                        <Input form={form} name={'password'} placeholder={'Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
+                        <View style={styles.forgotPasswordContainer}>
+                            <TouchableOpacity onPress={() => functions.f0()}>
+                                <Text style={styles.forgotPasswordText}>
+                                    Забыли пароль?
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity onPress={() => form.submit()}>
+                            <Text style={styles.submit}>
+                                Войти
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => functions.f1()}>
+                            <Text style={{...styles.submit, backgroundColor: 'black', color: theme.WHITE}}>
+                                Регистрация
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            }
+            
         </View>
     )
 }
@@ -349,7 +356,7 @@ export const ChooseUserTypePage = ({functions}) => {
     )
 }
 
-export const SignUpPage = ({userType, userTypeTitle, form}) => {
+export const SignUpPage = ({userType, userTypeTitle, form, loader}) => {
     const styles = {
         wrapper: {
             width: '96%',
@@ -409,23 +416,28 @@ export const SignUpPage = ({userType, userTypeTitle, form}) => {
 
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.title}>Я {userTypeTitle}</Text>
-            <View style={styles.form}>
-                <Input form={form} name={'first_name'} placeholder={'Имя'} />
-                <Input form={form} name={'last_name'} placeholder={'Фамилия'}/>
-                <Input form={form} name={'email'} placeholder={'E-Mail'} Icon={() => <Zocial name="email" size={24} color={theme.WHITE} />}/>
-                <Input form={form} name={'password'} placeholder={'Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
-                <TouchableOpacity onPress={() => form.submit()}>
-                    <Text style={{...styles.submit, backgroundColor: 'black', color: theme.WHITE}}>
-                        Регистрация
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            {
+                loader ? <Preloader /> : 
+                <>
+                    <Text style={styles.title}>Я {userTypeTitle}</Text>
+                    <View style={styles.form}>
+                        <Input form={form} name={'first_name'} placeholder={'Имя'} />
+                        <Input form={form} name={'last_name'} placeholder={'Фамилия'}/>
+                        <Input form={form} name={'email'} placeholder={'E-Mail'} Icon={() => <Zocial name="email" size={24} color={theme.WHITE} />}/>
+                        <Input form={form} name={'password'} placeholder={'Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
+                        <TouchableOpacity onPress={() => form.submit()}>
+                            <Text style={{...styles.submit, backgroundColor: 'black', color: theme.WHITE}}>
+                                Регистрация
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            }
         </View>
     )
 }
 
-export const RecoveryPage = ({form}) => {
+export const RecoveryPage = ({form, loader}) => {
     const styles = {
         wrapper: {
             width: '96%',
@@ -464,20 +476,26 @@ export const RecoveryPage = ({form}) => {
 
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.title}>Востоновление</Text>
-            <View style={styles.form}>
-                <Input form={form} name={'email'} placeholder={'E-Mail'} Icon={() => <Zocial name="email" size={24} color={theme.WHITE} />}/>
-                <TouchableOpacity onPress={() => form.submit()}>
-                    <Text style={styles.submit}>
-                        Отправить
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            {
+                loader ?
+                    <Preloader /> : 
+                    <>
+                        <Text style={styles.title}>Востоновление</Text>
+                        <View style={styles.form}>
+                            <Input form={form} name={'email'} placeholder={'E-Mail'} Icon={() => <Zocial name="email" size={24} color={theme.WHITE} />}/>
+                            <TouchableOpacity onPress={() => form.submit()}>
+                                <Text style={styles.submit}>
+                                    Отправить
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </>
+            }
         </View>
     )
 }
 
-export const PinCodePage = ({form}) => {
+export const PinCodePage = ({form, loader}) => {
     const styles = {
         wrapper: {
             width: '96%',
@@ -516,20 +534,25 @@ export const PinCodePage = ({form}) => {
 
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.title}>Введите PIN-код</Text>
-            <View style={styles.form}>
-                <PinCodeInput form={form} name={'pinCode'}/>
-                <TouchableOpacity onPress={() => form.submit()}>
-                    <Text style={styles.submit}>
-                        Отправить
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            {
+                loader ? <Preloader /> : 
+                <>
+                    <Text style={styles.title}>Введите PIN-код</Text>
+                    <View style={styles.form}>
+                        <PinCodeInput form={form} name={'pinCode'}/>
+                        <TouchableOpacity onPress={() => form.submit()}>
+                            <Text style={styles.submit}>
+                                Отправить
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            }
         </View>
     )
 }
 
-export const NewPasswordPage = ({form}) => {
+export const NewPasswordPage = ({form, loader}) => {
     const styles = {
         wrapper: {
             width: '96%',
@@ -568,16 +591,21 @@ export const NewPasswordPage = ({form}) => {
 
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.title}>Введите новый пароль</Text>
-            <View style={styles.form}>
-                <Input form={form} name={'password'} placeholder={'Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
-                <Input form={form} name={'repeat_password'} placeholder={'Повторите Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
-                <TouchableOpacity onPress={() => form.submit()}>
-                    <Text style={styles.submit}>
-                        Востановить
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            {
+                loader ? <Preloader /> : 
+                <>
+                    <Text style={styles.title}>Введите новый пароль</Text>
+                    <View style={styles.form}>
+                        <Input form={form} name={'password'} placeholder={'Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
+                        <Input form={form} name={'repeat_password'} placeholder={'Повторите Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
+                        <TouchableOpacity onPress={() => form.submit()}>
+                            <Text style={styles.submit}>
+                                Востановить
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            }
         </View>
     )
 }
