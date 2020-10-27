@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app_1",
-    "slug": "app_1",
+    "name": "pro-wl-app",
+    "slug": "pro-wl-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,15 +16,23 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.dk.tha"
+    },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tha"
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSExceptionDomains": {
+            "localhost": {
+              "NSTemporaryExceptionAllowsInsecureHTTPLoads": true
+            }
+          }
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "android": {
-      "package": "com.tha"
     }
   }
 }

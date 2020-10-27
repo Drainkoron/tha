@@ -3,7 +3,7 @@ import React, { useReducer, createContext } from "react";
 export const UserDataContext = createContext();
 
 const initialState = {
-    access: null,
+    authData: null,
     profileData: null,
     page: 'auth',
     registrationData: null,
@@ -17,14 +17,21 @@ const reducer = (state, action) => {
           newState.access = action.payload
           return newState
 
+        case 'setAuthData':
+          var newState = {...state}
+          newState.authData = action.payload
+          return newState
+
         case 'setProfileImg':
           var newState = {...state}
-          newState.profileData.profile_image = action.payload
+          newState.profileData.profile_image != action.payload ?
+            newState.profileData.profile_image = action.payload :
+            null
           return newState
         
         case 'setProfileData':
           var newState = {...state}
-          newState.profileData = action.payload
+          newState.profileData == null ? newState.profileData = action.payload : null
           return newState
           
         case 'setPage':

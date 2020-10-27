@@ -71,8 +71,6 @@ export const AuthNavigator = createStackNavigator(
         initialRouteName: 'Auth',
         defaultNavigationOptions: {
             headerShown: false,
-            animationEnabled: false,
-            gesturesEnabled: false
         }
     }
 )
@@ -139,9 +137,6 @@ const ProfileNavigator = createStackNavigator(
         defaultNavigationOptions: {
             headerShown: false,
             headerBackShown: true
-        },
-        NavigationOptions: {
-            headerShown: true,
         }
     }
 )

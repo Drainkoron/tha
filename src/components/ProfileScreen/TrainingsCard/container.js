@@ -10,7 +10,7 @@ export const TrainingsCardC = ({Date, navigation}) => {
     const [state, dispatch] = useContext(TrainingsContext);
     const [stateUD, dispatchUD] = useContext(UserDataContext);
     const [popupState, popupDispatch] = useContext(PopupContext);
-    
+
     const props = {
         state,
         Date,

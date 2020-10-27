@@ -15,6 +15,7 @@ const bgImage = require('../../../assets/icons/AuthBackgroundImage.png')
 export const AuthMainC = ({navigation}) => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
     const [loader, loaderToggler] = useState(false)
+    const [error, setError] = useState(null)
     const [state, setState] = useState({
         values: {
             email: '',
@@ -32,10 +33,17 @@ export const AuthMainC = ({navigation}) => {
         loaderToggler(true)
         postReq(endpoints.get_token, {username:state.values.email, password:state.values.password}).then(data => {
             loaderToggler(false)
-            dispatchUD({type:'setAccessKey', payload:data.access})
+            console.log(data)
+            dispatchUD({type:'setAuthData', payload:{email:state.values.email, access:data.access}})
 		}, error => {
+            setState({
+                values: {
+                    email: state.values.email,
+                    password: ''
+                }
+            })
             loaderToggler(false)
-			console.log(error)
+			setError(error)
 		})
     }
 
@@ -48,7 +56,8 @@ export const AuthMainC = ({navigation}) => {
         form: {
             handleChange: handleChange,
             submit: submit,
-            values: state.values
+            values: state.values,
+            error: error
         }
     }
     
@@ -62,6 +71,7 @@ export const AuthMainC = ({navigation}) => {
 export const ChooseUserTypeC = ({navigation}) => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
     const [loader, loaderToggler] = useState(false)
+    const [error, setError] = useState(null)
     const props = {
         loader,
         functions: {
@@ -79,6 +89,7 @@ export const ChooseUserTypeC = ({navigation}) => {
 
 export const SignUpC = ({navigation}) => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
+    const [error, setError] = useState(null)
     const [loader, loaderToggler] = useState(false)
     const [state, setState] = useState({
         values: {
@@ -100,10 +111,18 @@ export const SignUpC = ({navigation}) => {
         postReq(endpoints.registration, {...state.values}).then(data => {
             loaderToggler(false)
             dispatchUD({type:'setRegistrationData', payload:{...state.values}})
-            dispatchUD({type:'setPage', payload:'pinCode'})
+            navigation.navigate(pages.PinCode)
 		}, error => {
+            setState({
+                values: {
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    password: ''
+                }
+            })
             loaderToggler(false)
-			console.log(error)
+            setError(error)
 		})
     }
 
@@ -112,7 +131,8 @@ export const SignUpC = ({navigation}) => {
         form: {
             handleChange: handleChange,
             submit: submit,
-            values: state.values
+            values: state.values,
+            error: error
         },
         userTypeTitle: stateUD.registrationData.is_coach ? 'тренер' : 'атлет'
     }
@@ -127,6 +147,7 @@ export const SignUpC = ({navigation}) => {
 export const RecoveryC = ({navigation}) => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
     const [loader, loaderToggler] = useState(false)
+    const [error, setError] = useState(null)
     const [state, setState] = useState({
         values: {
             email: '',
@@ -142,13 +163,17 @@ export const RecoveryC = ({navigation}) => {
     const submit = () => {
         loaderToggler(true)
         postReq(endpoints.password_recovery, {...state.values}).then(data => {
-            console.log(data)
             loaderToggler(false)
             navigation.navigate(pages.PinCode2)
             dispatchUD({type:'setRecoveryEmail', payload:state.values.email})
         }, error => {
+            setState({
+                values: {
+                    email: ''
+                }
+            })
             loaderToggler(false)
-			console.log(error)
+            setError(error)
 		})
     }
 
@@ -157,7 +182,8 @@ export const RecoveryC = ({navigation}) => {
         form: {
             handleChange: handleChange,
             submit: submit,
-            values: state.values
+            values: state.values,
+            error: error
         }
     }
     
@@ -171,6 +197,7 @@ export const RecoveryC = ({navigation}) => {
 export const PinCodeC = ({navigation}) => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
     const [loader, loaderToggler] = useState(false)
+    const [error, setError] = useState(null)
     const [state, setState] = useState({
         values: {
             pinCode: '',   
@@ -188,10 +215,16 @@ export const PinCodeC = ({navigation}) => {
         postReq(endpoints.confirm_email, {pin: state.values.pinCode, email:stateUD.registrationData.email}).then(data => {
             postReq(endpoints.get_token, {username: stateUD.registrationData.email, password:stateUD.registrationData.password}).then(data => {
                 loaderToggler(false)
-                dispatchUD({type:'setAccessKey', payload:data.access})
+                dispatchUD({type:'setAuthData', payload:{access:data.access, email:stateUD.registrationData.email}})
             }, error => {
+                setState({
+                    values: {
+                        pinCode: '',
+                    }
+                })
                 loaderToggler(false)
                 console.log(error)
+                setError(error)
             })
 		}, error => {
 			console.log(error)
@@ -203,7 +236,8 @@ export const PinCodeC = ({navigation}) => {
         form: {
             handleChange: handleChange,
             submit: submit,
-            values: state.values
+            values: state.values,
+            error: error
         }
     }
 
@@ -217,6 +251,7 @@ export const PinCodeC = ({navigation}) => {
 export const PinCodeC2 = ({navigation}) => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
     const [loader, loaderToggler] = useState(false)
+    const [error, setError] = useState(null)
     const [state, setState] = useState({
         values: {
             pinCode: '',   
@@ -235,8 +270,13 @@ export const PinCodeC2 = ({navigation}) => {
             loaderToggler(false)
             navigation.navigate(pages.NewPassword)
 		}, error => {
+            setState({
+                values: {
+                    pinCode: '',
+                }
+            })
             loaderToggler(false)
-			console.log(error)
+            setError(error)
 		})
     }
 
@@ -245,7 +285,8 @@ export const PinCodeC2 = ({navigation}) => {
         form: {
             handleChange: handleChange,
             submit: submit,
-            values: state.values
+            values: state.values,
+            error: error
         }
     }
 
@@ -259,6 +300,7 @@ export const PinCodeC2 = ({navigation}) => {
 export const NewPasswordC = ({navigation}) => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
     const [loader, loaderToggler] = useState(false)
+    const [error, setError] = useState(null)
     const [state, setState] = useState({
         values: {
             password: '',
@@ -276,10 +318,17 @@ export const NewPasswordC = ({navigation}) => {
         loaderToggler(true)
         postReq(endpoints.change_password, {password: state.values.password, email:stateUD.recoveryData.email}).then(data => {
             loaderToggler(false)
-            navigation.goBack()
+            console.log(data)
+            navigation.popToTop()
 		}, error => {
+            setState({
+                values: {
+                    password: '',
+                    repeat_password: ''
+                }
+            })
             loaderToggler(false)
-			console.log(error)
+            setError(error)
 		})
     }
 

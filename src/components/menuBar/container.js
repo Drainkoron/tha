@@ -18,7 +18,7 @@ export const MenuBarContainer = () => {
             f0: () => dispatch({type:'toggler'}),
             f1: () => (navigatePage(pages.TrainingProgram), dispatch({type:'toggler'})),
             f2: () => (popupDispatch({type:'toggler', window:popupWindowsList.supportWindow}, dispatch({type:'toggler'}))),
-            f3: () => (dispatchUD({type:'setProfileData'}, null), dispatchUD({type:'setAccessKey'}, null), dispatch({type:'toggler'}))
+            f3: () => (dispatchUD({type:'setProfileData'}, null), dispatchUD({type:'setAuthData'}, null), dispatch({type:'toggler'}))
         }
     }
 

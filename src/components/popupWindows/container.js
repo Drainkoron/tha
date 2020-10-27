@@ -60,8 +60,9 @@ export const ProfileEditWindowC = ({state, dispatch}) => {
     };
 
     const submit = () => {
-        postReq(endpoints.upload_profile_image, {email:stateUD.profileData.email, img:image}, stateUD.access).then(data => {
-            dispatchUD({type:'setProfileImg', payload:''})
+        dispatchUD({type:'setProfileImg', payload:''})
+        postReq(endpoints.upload_profile_image, {email:stateUD.profileData.email, img:image}, stateUD.authData.access).then(data => {
+            dispatchUD({type:'setProfileImg', payload:image})           
         }, error => {
             console.log(error)
         })

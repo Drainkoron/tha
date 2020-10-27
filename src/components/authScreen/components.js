@@ -133,7 +133,7 @@ export const AuthTemplate = ({children}) => {
 const Input = ({form, name, placeholder, secureTextEntry, Icon}) => {
     const styles = StyleSheet.create({
         inputSection: {
-            marginTop: 10,
+            marginBottom: 10,
             borderColor: theme.LIGHT_GRAY,
             borderWidth: 2,
             justifyContent: 'space-between',
@@ -161,7 +161,7 @@ const Input = ({form, name, placeholder, secureTextEntry, Icon}) => {
                 style={styles.input}
                 placeholder={placeholder}
                 onChangeText={(text) => {form.handleChange(name, text)}}
-                value={form.values.name}
+                value={form.values[name]}
                 underlineColorAndroid="transparent"
             />
             <View style={styles.iconContainer}>
@@ -220,7 +220,18 @@ export const AuthPage = ({form, functions, loader}) => {
             borderBottomWidth: 2,
             paddingBottom: 5
         },
+        errorContainer: {
+            backgroundColor: '#e3412b',
+            width: '80%',
+            marginBottom: 10,
+            borderRadius: 5,
+            padding: 5
+        },
+        errorText: {
+            color: theme.WHITE
+        },
         authWith: {
+            marginBottom: 10,
             alignItems: 'center'
         },
         authWithTitle: {
@@ -235,7 +246,6 @@ export const AuthPage = ({form, functions, loader}) => {
             padding: 7
         },
         form: {
-            marginTop: 10,
             alignItems: 'center',
             width: '80%'
         },
@@ -271,6 +281,13 @@ export const AuthPage = ({form, functions, loader}) => {
                             <Entypo style={styles.facebookIcon} name="facebook" size={32} />
                         </TouchableOpacity>
                     </View>
+                    {
+                        form.error ? 
+                            <View style={styles.errorContainer}>
+                                <Text style={styles.errorText}>{form.error}</Text>
+                            </View> :
+                            null
+                    }
                     <View style={styles.form}>
                         <Input form={form} name={'email'} placeholder={'E-Mail'} Icon={() => <Zocial name="email" size={24} color={theme.WHITE} />}/>
                         <Input form={form} name={'password'} placeholder={'Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
@@ -411,7 +428,17 @@ export const SignUpPage = ({userType, userTypeTitle, form, loader}) => {
             textAlign: 'center',
             borderRadius: 20,
             fontWeight: 'bold'
-        }
+        },
+        errorContainer: {
+            backgroundColor: '#e3412b',
+            width: '80%',
+            marginTop: 10,
+            borderRadius: 5,
+            padding: 5
+        },
+        errorText: {
+            color: theme.WHITE
+        },
     }
 
     return (
@@ -420,6 +447,13 @@ export const SignUpPage = ({userType, userTypeTitle, form, loader}) => {
                 loader ? <Preloader /> : 
                 <>
                     <Text style={styles.title}>Я {userTypeTitle}</Text>
+                    {
+                        form.error ? 
+                            <View style={styles.errorContainer}>
+                                <Text style={styles.errorText}>{form.error}</Text>
+                            </View> :
+                            null
+                    }
                     <View style={styles.form}>
                         <Input form={form} name={'first_name'} placeholder={'Имя'} />
                         <Input form={form} name={'last_name'} placeholder={'Фамилия'}/>
@@ -472,6 +506,16 @@ export const RecoveryPage = ({form, loader}) => {
             alignItems: 'center',
             width: '80%'
         },
+        errorContainer: {
+            backgroundColor: '#e3412b',
+            width: '80%',
+            marginTop: 10,
+            borderRadius: 5,
+            padding: 5
+        },
+        errorText: {
+            color: theme.WHITE
+        },
     }
 
     return (
@@ -481,6 +525,13 @@ export const RecoveryPage = ({form, loader}) => {
                     <Preloader /> : 
                     <>
                         <Text style={styles.title}>Востоновление</Text>
+                        {
+                            form.error ? 
+                                <View style={styles.errorContainer}>
+                                    <Text style={styles.errorText}>{form.error}</Text>
+                                </View> :
+                                null
+                        }
                         <View style={styles.form}>
                             <Input form={form} name={'email'} placeholder={'E-Mail'} Icon={() => <Zocial name="email" size={24} color={theme.WHITE} />}/>
                             <TouchableOpacity onPress={() => form.submit()}>
@@ -530,6 +581,16 @@ export const PinCodePage = ({form, loader}) => {
             alignItems: 'center',
             width: '80%'
         },
+        errorContainer: {
+            backgroundColor: '#e3412b',
+            width: '80%',
+            marginTop: 10,
+            borderRadius: 5,
+            padding: 5
+        },
+        errorText: {
+            color: theme.WHITE
+        },
     }
 
     return (
@@ -538,6 +599,13 @@ export const PinCodePage = ({form, loader}) => {
                 loader ? <Preloader /> : 
                 <>
                     <Text style={styles.title}>Введите PIN-код</Text>
+                    {
+                        form.error ? 
+                            <View style={styles.errorContainer}>
+                                <Text style={styles.errorText}>{form.error}</Text>
+                            </View> :
+                            null
+                    }
                     <View style={styles.form}>
                         <PinCodeInput form={form} name={'pinCode'}/>
                         <TouchableOpacity onPress={() => form.submit()}>
@@ -587,6 +655,16 @@ export const NewPasswordPage = ({form, loader}) => {
             alignItems: 'center',
             width: '80%'
         },
+        errorContainer: {
+            backgroundColor: '#e3412b',
+            width: '80%',
+            marginTop: 10,
+            borderRadius: 5,
+            padding: 5
+        },
+        errorText: {
+            color: theme.WHITE
+        },
     }
 
     return (
@@ -595,6 +673,13 @@ export const NewPasswordPage = ({form, loader}) => {
                 loader ? <Preloader /> : 
                 <>
                     <Text style={styles.title}>Введите новый пароль</Text>
+                    {
+                        form.error ? 
+                            <View style={styles.errorContainer}>
+                                <Text style={styles.errorText}>{form.error}</Text>
+                            </View> :
+                            null
+                    }
                     <View style={styles.form}>
                         <Input form={form} name={'password'} placeholder={'Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>
                         <Input form={form} name={'repeat_password'} placeholder={'Повторите Пароль'} secureTextEntry={true} Icon={() => <FontAwesome name="lock" size={24} color={theme.WHITE} />}/>

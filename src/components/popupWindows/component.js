@@ -287,7 +287,7 @@ export const ProfileEditWindow = ({functions, image, form}) => {
                 placeholderTextColor = {theme.GRAY}
                 autoCapitalize = "none"
             />
-            <TouchableOpacity style={styles.submitButton} onPress={() => form.submit()}>
+            <TouchableOpacity style={styles.submitButton} onPress={() => image ? (form.submit(), functions.f0()) : null}>
                 <Text style={{color:theme.WHITE, fontWeight: 'bold'}}>Обновить</Text>
             </TouchableOpacity>
         </View>

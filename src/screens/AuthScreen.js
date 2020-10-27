@@ -19,12 +19,12 @@ const theme = THEME.Android
 export const AuthScreen = () => {
     const [stateUD, dispatchUD] = useContext(UserDataContext)
 
-    if(stateUD.access == null){
+    if(stateUD.authData == null){
         return <AuthNavigation />
     }
     
     else {
-        getReq(endpoints.get_personal_data, stateUD.access).then(data => {
+        postReq(endpoints.get_personal_data, {email:stateUD.authData.email}, stateUD.authData.access).then(data => {
             dispatchUD({type:'setProfileData', payload:data})
         }, error => {
             console.log(error)
