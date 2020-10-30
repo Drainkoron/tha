@@ -29,10 +29,12 @@
             }
           }
         }
-      }
+      },
+      "bundleIdentifier": "com.dk.tha"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     }
-  }
+  },
+  "facebookAutoInitEnabled": true
 }

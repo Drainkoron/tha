@@ -223,11 +223,11 @@ export const PinCodeC = ({navigation}) => {
                     }
                 })
                 loaderToggler(false)
-                console.log(error)
                 setError(error)
             })
 		}, error => {
-			console.log(error)
+            setError(error)
+            loaderToggler(false)
 		})
     }
 
@@ -315,21 +315,27 @@ export const NewPasswordC = ({navigation}) => {
     }
     
     const submit = () => {
-        loaderToggler(true)
-        postReq(endpoints.change_password, {password: state.values.password, email:stateUD.recoveryData.email}).then(data => {
-            loaderToggler(false)
-            console.log(data)
-            navigation.popToTop()
-		}, error => {
-            setState({
-                values: {
-                    password: '',
-                    repeat_password: ''
-                }
-            })
-            loaderToggler(false)
-            setError(error)
-		})
+        state.values.password == state.values.repeat_password ? (
+            loaderToggler(false),
+            postReq(endpoints.change_password, {password: state.values.password, email:stateUD.recoveryData.email}).then(data => {
+                loaderToggler(false)
+                console.log(data)
+                navigation.popToTop()
+            }, error => {
+                setState({
+                    values: {
+                        password: '',
+                        repeat_password: ''
+                    }
+                })
+                loaderToggler(false)
+                setError(error)
+            })) : (setError('Passwords does not match.'), setState({
+            values: {
+                password: '',
+                repeat_password: ''
+            }
+        }))
     }
 
     const props = {
@@ -337,7 +343,8 @@ export const NewPasswordC = ({navigation}) => {
         form: {
             handleChange: handleChange,
             submit: submit,
-            values: state.values
+            values: state.values,
+            error: error
         }
     }
     
